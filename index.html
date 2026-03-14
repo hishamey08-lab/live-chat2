@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Live Chat</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#111;
+color:white;
+text-align:center;
+}
+
+#chat{
+height:300px;
+overflow-y:scroll;
+border:1px solid white;
+margin:20px;
+padding:10px;
+}
+
+input{
+padding:10px;
+}
+
+button{
+padding:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>My Live Chat</h2>
+
+<div id="chat"></div>
+
+<input id="message" placeholder="Type message">
+<button onclick="sendMessage()">Send</button>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+const firebaseConfig = {
+apiKey: "YOUR_KEY",
+authDomain: "YOUR_DOMAIN",
+databaseURL: "YOUR_DB",
+projectId: "YOUR_PROJECT"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const chatRef = ref(db,"messages")
+
+window.sendMessage = function(){
+
+const msg = document.getElementById("message").value
+
+push(chatRef,{
+text:msg
+})
+
+document.getElementById("message").value=""
+
+}
+
+onChildAdded(chatRef,(data)=>{
+
+const div = document.createElement("div")
+
+div.innerText = data.val().text
+
+document.getElementById("chat").appendChild(div)
+
+})
+
+</script>
+
+</body>
+</html>
