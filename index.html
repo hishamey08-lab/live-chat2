@@ -46,17 +46,18 @@ padding:10px;
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
-const firebaseConfig = {
-apiKey: "YOUR_KEY",
-authDomain: "YOUR_DOMAIN",
-databaseURL: "YOUR_DB",
-projectId: "YOUR_PROJECT"
-};
+ const firebaseConfig = {
+    apiKey: "AIzaSyGff0FxzbkRBNFvQwNvJpERnRdLVg-",
+    authDomain: "live-chat-9016a.firebaseapp.com",
+    projectId: "live-chat-9016a",com",
+    messagingSenderId: "687453441605",
+    appId: "1:687453441605:web:0f0a5b9b61afca40dd2c"
+  };
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-const chatRef = ref(db,"messages")
+const chatRef = ref(db,"public-chat")
 
 window.sendMessage = function(){
 
