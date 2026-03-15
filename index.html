@@ -22,6 +22,7 @@ padding:10px;
 
 input{
 padding:10px;
+width:200px;
 }
 
 button{
@@ -46,40 +47,55 @@ padding:10px;
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
- const firebaseConfig = {
-    apiKey: "AIzaSyGff0FxzbkRBNFvQwNvJpERnRdLVg-",
-    authDomain: "live-chat-9016a.firebaseapp.com",
-    projectId: "live-chat-9016a",com",
-    messagingSenderId: "687453441605",
-    appId: "1:687453441605:web:0f0a5b9b61afca40dd2c"
-  };
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "live-chat-9016a.firebaseapp.com",
+  databaseURL: "https://live-chat-9016a-default-rtdb.firebaseio.com",
+  projectId: "live-chat-9016a",
+  storageBucket: "live-chat-9016a.appspot.com",
+  messagingSenderId: "687453441605",
+  appId: "1:687453441605:web:0f0a5b9b61afca40dd2c"
+};
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-const chatRef = ref(db,"public-chat")
+const chatRef = ref(db,"public-chat");
 
 window.sendMessage = function(){
 
-const msg = document.getElementById("message").value
+const msg = document.getElementById("message").value.trim();
+
+if(msg === "") return;
 
 push(chatRef,{
-text:msg
-})
+text: msg
+});
 
-document.getElementById("message").value=""
+document.getElementById("message").value="";
 
 }
 
 onChildAdded(chatRef,(data)=>{
 
-const div = document.createElement("div")
+const div = document.createElement("div");
 
-div.innerText = data.val().text
+div.innerText = data.val().text;
 
-document.getElementById("chat").appendChild(div)
+document.getElementById("chat").appendChild(div);
 
-})
+// auto scroll
+const chatBox = document.getElementById("chat");
+chatBox.scrollTop = chatBox.scrollHeight;
+
+});
+
+// send message with Enter key
+document.getElementById("message").addEventListener("keypress",function(e){
+if(e.key === "Enter"){
+sendMessage();
+}
+});
 
 </script>
 
